@@ -1,0 +1,19 @@
+# Ignore TeX output
+*.aux
+*.bbl
+*.blg
+*.log
+*.nav
+*.out
+*.run.xml
+*.snm
+*.synctex.gz
+*.synctex.gz(busy)
+*.toc
+*.bcf
+*.fdb_latexmk
+*.fls
+
+# Ignore output pdfs
+*.pdf
+

@@ -1,0 +1,41 @@
+% ==================================================
+% Batch Updates
+% Author: Lester James V. Miranda
+% ==================================================
+
+\documentclass[preview, convert={outfile=\jobname.png,density=300}]{standalone}
+
+\usepackage{tikz}
+\usepackage{color}
+\usepackage{subfig}
+\usepackage{ifthen}
+\usepackage{graphicx}
+
+\renewcommand\familydefault{\sfdefault}
+
+\usetikzlibrary{
+    matrix,
+    shapes,
+    fit,
+    arrows,
+    positioning,
+    calc,
+    backgrounds,
+    shadows.blur,
+    shapes.geometric,
+}
+
+\begin{document}
+\begin{tikzpicture}[
+    node distance= 2cm,
+    episode/.style={draw, color=red, fill=none, rounded corners=8pt,thick, inner xsep=1cm, inner ysep=0.25cm},
+]
+
+\draw[->] (0,0) -- (5,0) {};
+\draw[->] (0,0) -- (0,5) {};
+
+
+\end{tikzpicture}
+\end{document}
+
+
