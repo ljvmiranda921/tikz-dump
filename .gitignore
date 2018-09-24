@@ -16,4 +16,5 @@
 
 # Ignore output pdfs
 *.pdf
+*.png
 
