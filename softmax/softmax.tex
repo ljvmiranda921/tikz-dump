@@ -1,0 +1,88 @@
+% ==================================================
+% Softmax Negative Log-Likelihood
+% Author: Lester James V. Miranda
+% ==================================================
+
+\documentclass[preview, convert={outfile=\jobname.png,density=300}]{standalone}
+
+\usepackage{tikz}
+\usepackage{color}
+\usepackage{subfig}
+\usepackage{ifthen}
+\usepackage{graphicx}
+\usepackage{amsmath}
+
+\renewcommand\familydefault{\sfdefault}
+
+\usetikzlibrary{
+    matrix,
+    shapes,
+    fit,
+    arrows,
+    positioning,
+    calc,
+    backgrounds,
+    shadows.blur,
+    shapes.geometric,
+}
+
+\begin{document}
+\begin{tikzpicture}[
+    textbox/.style={fill=none},
+]
+
+% FEEDFORWARD
+\matrix[matrix of nodes, anchor=center, 
+        nodes={inner sep=0pt, text width=1cm, 
+               align=center, minimum height=1cm}]
+    (feedForward) at (1.5,1.5) {
+   |[fill=magenta!40]| {5} & |[fill=magenta!40]| {4} & |[fill=magenta!40]| {2}\\
+   |[fill=cyan!40]| {4} & |[fill=cyan!40]| {2} & |[fill=cyan!40]| {8}\\
+   |[fill=green!20]| {4} & |[fill=green!20]| {4} & |[fill=green!20]| {1}\\
+  };
+\draw[step=1cm, color=black] (0,0) grid (3,3);
+\node[textbox] at ([xshift=-1cm, yshift=0.25cm]feedForward.north) {cat};
+\node[textbox] at ([xshift=0cm, yshift=0.25cm]feedForward.north) {dog};
+\node[textbox] at ([xshift=1cm, yshift=0.25cm]feedForward.north) {horse};
+
+% SOFTMAX
+\matrix[matrix of nodes, anchor=center, 
+        nodes={inner sep=0pt, text width=1cm, 
+               align=center, minimum height=1cm}]
+    (softmax) at (6.5,1.5) {
+   |[fill=magenta!40]| {0.71} & |[fill=magenta!40]| {0.26} & |[fill=magenta!40]| {0.04}\\
+   |[fill=cyan!40]| {0.02} & |[fill=cyan!40]| {0.00} & |[fill=cyan!40]| {0.98}\\
+   |[fill=green!20]| {0.49} & |[fill=green!20]| {0.49} & |[fill=green!20]| {0.02}\\
+  };
+\draw[step=1cm, color=black] (5,0) grid (8,3);
+\node[textbox] at ([xshift=-1cm, yshift=0.25cm]softmax.north) {cat};
+\node[textbox] at ([xshift=0cm, yshift=0.25cm]softmax.north) {dog};
+\node[textbox] at ([xshift=1cm, yshift=0.25cm]softmax.north) {horse};
+
+% LABELS
+\node[textbox] at ([yshift=1cm]feedForward.north) {Feedforward output, $\mathbf{y}_{i}$};
+\node[textbox] at ([yshift=1cm]softmax.north) {Softmax output, $\mathbf{S}(\mathbf{y}_{i})$};
+\node[textbox] at ([yshift=-0.5cm]feedForward.south) {Shape: \texttt{(3,)}};
+\node[textbox] at ([yshift=-0.5cm]softmax.south) {Shape: \texttt{(3,)}};
+
+% PICTURES
+\node[inner sep=0pt, anchor=center]
+    (cat) [left=of feedForward, yshift=1cm, xshift=-1cm]
+    {\includegraphics[width=0.075\textwidth]{cat}};
+\node[inner sep=0pt, anchor=center]
+    (horse) [left=of feedForward, xshift=-1cm]
+    {\includegraphics[width=0.075\textwidth]{horse}};
+\node[inner sep=0pt, anchor=center]
+    (dog) [left=of feedForward, yshift=-1cm, xshift=-1cm]
+    {\includegraphics[width=0.075\textwidth]{dog}};
+\node[textbox] at ([yshift=1.15cm]cat.north) {Input pixels, $\mathbf{x}$};
+\node[textbox] at ([yshift=-0.69cm]dog.south) {Shape: \texttt{(3, 32, 32)}};
+
+% ARROWS
+\draw[->, thick] (horse) -- (feedForward) node[above, midway,align=center]
+{\small Forward\\ \small propagation};
+\draw[->, thick] (feedForward) -- (softmax) node[above, midway,align=center]
+{\small Softmax\\ \small function};
+
+\end{tikzpicture}
+\end{document}

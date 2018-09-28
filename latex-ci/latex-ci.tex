@@ -1,0 +1,70 @@
+% ==================================================
+% LaTeX Continuous Integration 
+% Author: Lester James V. Miranda
+% ==================================================
+
+\documentclass[preview, convert={outfile=\jobname.png,density=300}]{standalone}
+
+\usepackage{tikz}
+\usepackage{color}
+\usepackage{subfig}
+\usepackage{ifthen}
+\usepackage{graphicx}
+\usepackage{fontawesome}
+
+\renewcommand\familydefault{\sfdefault}
+
+\usetikzlibrary{
+    matrix,
+    shapes,
+    fit,
+    arrows,
+    positioning,
+    calc,
+    backgrounds,
+    shadows.blur,
+    shapes.geometric,
+}
+
+\begin{document}
+\begin{tikzpicture}[
+    node distance = 2cm, 
+    state/.style={draw, thick, align=center, minimum width=2cm, minimum height=2cm, fill=white, text=black, blur shadow={shadow blur steps=5}},
+    process/.style={draw, text=black, rounded corners=8pt, minimum width=2cm, minimum height=0.5cm},
+    file/.style={draw, thick, align=center, minimum width=2cm, minimum height=0.5cm, fill=green!20, text=black, rounded corners=8pt}
+]
+
+\node[state, label={\textbf{Step 1}}] (workingDirectory) at (0,0) {Working\\ Directory};
+
+\node[process, fill=cyan!40] (gitPush) [right=of workingDirectory] {git push}; 
+
+
+\node[state, label={\textbf{Step 2}}] (gitService) [right=of gitPush] {{\LARGE\faGithub}\\ Git Service};
+
+
+\node[process, fill=magenta!40] (webHook) [below=of gitService] {Webhook}; 
+
+\node[file] (tlsetup) [yshift=1.75cm, below=of webHook] {\faFileO~tlsetup.sh};
+
+\node[state, label={\textbf{Step 3}}] (CI) [below=of webHook] {{\LARGE\faCogs}\\ Travis-CI};
+
+\node[process, fill=magenta!40] (buildDeploy) [xshift=0.5cm,left=of CI] {Build \& Deploy}; 
+
+\node[file] (makeLatex) [yshift=1.75cm, below=of buildDeploy] {\faCode~\texttt{make latex}};
+\node[file] (uploader) [yshift=1.75cm,below=of makeLatex] {\faFileO~dropbox\_uploader.sh};
+
+\node[state, label={\textbf{Step 4}}] (dropbox) [left=of buildDeploy] {{\LARGE\faDropbox}\\ Dropbox};
+
+\draw[->, thick] (workingDirectory) -- (gitPush) {};
+\draw[->, thick] (gitPush) -- (gitService) {};
+\draw[->, thick] (gitService) -- (webHook) {};
+\draw[->, thick] (webHook) -- (CI) {};
+\draw[->, thick] (CI) -- (buildDeploy) {};
+\draw[->, thick] (buildDeploy) -- (dropbox) {};
+
+\node[state, label={\textbf{Artifact}}] (artifact) [above=of buildDeploy] {{\LARGE\faFilePdfO}\\Travis Artifact};
+
+\draw[->, dashed] (buildDeploy) -- (artifact) {};
+
+\end{tikzpicture}
+\end{document}

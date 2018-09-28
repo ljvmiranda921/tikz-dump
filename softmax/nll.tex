@@ -1,0 +1,89 @@
+% ==================================================
+% Negative Log-Likelihood
+% Author: Lester James V. Miranda
+% ==================================================
+
+\documentclass[preview, convert={outfile=\jobname.png,density=300}]{standalone}
+
+\usepackage{tikz}
+\usepackage{color}
+\usepackage{subfig}
+\usepackage{ifthen}
+\usepackage{graphicx}
+\usepackage{amsmath}
+
+\renewcommand\familydefault{\sfdefault}
+
+\usetikzlibrary{
+    matrix,
+    shapes,
+    fit,
+    arrows,
+    positioning,
+    calc,
+    backgrounds,
+    shadows.blur,
+    shapes.geometric,
+}
+
+\begin{document}
+\begin{tikzpicture}[
+    textbox/.style={fill=none},
+]
+
+
+% SOFTMAX
+\matrix[matrix of nodes, anchor=center, 
+        nodes={inner sep=0pt, text width=1cm, 
+               align=center, minimum height=1cm}]
+    (softmax) at (1.5,1.5) {
+   |[fill=magenta!40]| {\color{red}{0.71}} & |[fill=magenta!40]| {0.26} & |[fill=magenta!40]| {0.04}\\
+   |[fill=cyan!40]| {0.02} & |[fill=cyan!40]| {0.00} & |[fill=cyan!40]| {\color{red}{0.98}}\\
+   |[fill=green!20]| {0.49} & |[fill=green!20]| {\color{red}{0.49}} & |[fill=green!20]| {0.02}\\
+  };
+\draw[step=1cm, color=black] (0,0) grid (3,3);
+\node[textbox] at ([xshift=-1cm, yshift=0.25cm]softmax.north) {cat};
+\node[textbox] at ([xshift=0cm, yshift=0.25cm]softmax.north) {dog};
+\node[textbox] at ([xshift=1cm, yshift=0.25cm]softmax.north) {horse};
+
+% LOSS
+\matrix[matrix of nodes, anchor=center, 
+        nodes={inner sep=0pt, text width=1cm, 
+               align=center, minimum height=1cm}]
+    (loss) at (7.5,1.5) {
+   |[fill=magenta!40]| {0.34}\\
+   |[fill=cyan!40]| {0.02}\\
+   |[fill=green!20]| {0.71}\\
+  };
+\draw[step=1cm, color=black] (7,0) grid (8,3);
+\node[textbox, align=center] at ([yshift=0.25cm]loss.north) {NLL};
+\node[textbox, align=center] at ([yshift=-0.25cm]loss.south) {Total: \textbf{1.07}};
+
+% LABELS
+\node[textbox] at ([yshift=1cm]softmax.north) {Softmax output, $\mathbf{S}(\mathbf{y}_{i})$};
+\node[textbox, align=center] at ([yshift=1cm]loss.north) {Loss, $\mathbf{L}(a)$};
+\node[textbox, align=center] at ([yshift=-0.5cm]softmax.south) {The correct class is \\ highlighted in \color{red}{red}};
+
+% PICTURES
+\node[inner sep=0pt, anchor=center]
+    (cat) [left=of softmax, yshift=1cm, xshift=-1cm]
+    {\includegraphics[width=0.075\textwidth]{cat}};
+\node[inner sep=0pt, anchor=center]
+    (horse) [left=of softmax, xshift=-1cm]
+    {\includegraphics[width=0.075\textwidth]{horse}};
+\node[inner sep=0pt, anchor=center]
+    (dog) [left=of softmax, yshift=-1cm, xshift=-1cm]
+    {\includegraphics[width=0.075\textwidth]{dog}};
+\node[textbox] at ([yshift=1.15cm]cat.north) {Input pixels, $\mathbf{x}$};
+
+% ARROWS
+\draw[->, thick] (softmax) -- (loss) node[above, midway, align=center] {$-\log({a})$ at the\\ correct classes};
+
+% CAPTIONS
+\node[textbox, align=left] [right=of loss, yshift=1cm] (exp1) {Correct classes are known \\because we are training};
+\node[textbox, align=left] [right=of loss] (exp2) {Predictor confidence of \textbf{horse} is {\color{green!40!black!80}{high}}.\\ \textit{Lower unhappiness.}};
+\node[textbox, align=left] [right=of loss, yshift=-1cm] (exp2) {Predictor confidence of \textbf{dog} is {\color{red!80!black!60}{low}}.\\ \textit{Higher unhappiness.}};
+
+\end{tikzpicture}
+\end{document}
+
