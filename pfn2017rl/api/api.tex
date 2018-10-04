@@ -1,0 +1,57 @@
+% ==================================================
+% API 
+% Author: Lester James V. Miranda
+% ==================================================
+
+\documentclass[preview, convert={outfile=\jobname.png,density=300}]{standalone}
+
+\usepackage{tikz}
+\usepackage{color}
+\usepackage{subfig}
+\usepackage{ifthen}
+\usepackage{graphicx}
+\usepackage{tikz-uml}
+\usepackage{fontawesome}
+
+\renewcommand\familydefault{\sfdefault}
+
+\usetikzlibrary{
+    matrix,
+    shapes,
+    fit,
+    arrows,
+    positioning,
+    calc,
+    backgrounds,
+    shadows.blur,
+    shapes.geometric,
+}
+
+\begin{document}
+\tikzumlset{fill class=white}
+\begin{tikzpicture}
+
+% CrossEntropyMethod
+\umlclass{CrossEntropyMethod}{
+    + N : int\\ 
+    + p : float}{
+        + \texttt{sample\_parameters(params)}\\ 
+        + \texttt{get\_elite\_parameters(sample, rewards)}\\ 
+        + \texttt{get\_parameter\_mean(params)}}
+
+% LinearModel
+\umlclass[y=-5]{LinearModel}{
+    + params}{
+        + \texttt{action(obs)}}
+
+% CartPoleEnv
+\umlclass[x=5, y=-5]{CartPoleEnv}{
+    + params}{
+        + \texttt{reset()}\\
+        + \texttt{obs\_dim()}\\
+        + \texttt{step(action)}}
+
+\umlassoc{CrossEntropyMethod}{LinearModel}
+\umlassoc{LinearModel}{CartPoleEnv}
+\end{tikzpicture}
+\end{document}
