@@ -1,0 +1,79 @@
+\documentclass[convert={outfile=\jobname.png,density=300}]{standalone}
+
+\usepackage{tikz}
+\usepackage{color}
+\usepackage{subfig}
+\usepackage{fontawesome}
+\usepackage{graphicx}
+
+
+\renewcommand\familydefault{\sfdefault}
+
+
+\usetikzlibrary{
+    matrix,
+    shadows.blur,
+    fit,
+    shapes,
+    scopes,
+    backgrounds,
+    arrows,
+    positioning,
+    calc
+}
+
+
+\begin{document}
+\begin{tikzpicture}[
+    every node/.style={inner xsep=0, outer xsep=0, outer ysep=0},
+    bg/.style={
+        dashed, 
+        minimum width=0.5cm, 
+        minimum height=0.5cm, 
+        draw, 
+        rounded corners=1, 
+        inner xsep=5mm, 
+        inner ysep=5mm},
+    shadow/.style={blur shadow={shadow blur steps=5}}
+]
+
+% Github
+\node[scale=2.25, label={[yshift=0.3cm,name=github-label]Github}, inner ysep=0] (GithubRemote) at (0,0) {
+    \faGithub
+};
+
+% GCP
+\node[label={Build}] (CloudBuild) [right=1.5cm of GithubRemote] {
+    \includegraphics[width=1cm]{assets/build.pdf}
+};
+
+\node[label={PubSub}] (PubSub) [right=1.5cm of CloudBuild] {
+    \includegraphics[width=1cm]{assets/pubsub.pdf}
+};
+\node[label={[yshift=0.1cm]Function}, inner ysep=0] (Function) [right=1.5cm of PubSub] {
+    \includegraphics[width=1cm]{assets/functions.pdf}
+};
+\node[label={[label distance=-0.09cm]Storage}] (Storage) [right=1.5cm of Function] {
+    \includegraphics[width=1cm]{assets/gcs.pdf}
+};
+
+% Developer Contract
+\node[scale=2.25, label=below:{Repository}, inner ysep=0] (Repo) [below=1.5cm of GithubRemote] {
+    \faCodeFork 
+};
+
+\node[draw, label=below:{\texttt{index.js}}] (Node) [below=1cm of Function] {
+    \includegraphics[width=1cm]{assets/nodejs.pdf}
+};
+
+% Arrows
+\draw[->, thick] (GithubRemote) -- (CloudBuild) node[midway,above,align=center,scale=0.65] {Trigger\\ Build};
+\draw[->, thick] (CloudBuild) -- (PubSub) node[midway,above,align=center,scale=0.65] {Event\\ Message};
+\draw[->, thick] (PubSub) -- (Function) node[midway,above,align=center,scale=0.65] {Process\\Event};
+\draw[->, thick] (Function) -- (Storage) node[midway,above,align=center,scale=0.65] {Store Badge\\  Object};
+
+\draw[->, thick] (Repo) -- (GithubRemote) node[midway, left, scale=0.65, xshift=-0.2cm] {Push};
+\draw[->, thick] (Node) -- (Function) node[midway, left, scale=0.65, xshift=-0.2cm] {Deploy};
+
+\end{tikzpicture}
+\end{document}
