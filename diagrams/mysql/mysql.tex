@@ -7,6 +7,7 @@
 
 \usepackage{tikz}
 \usepackage{color}
+\usepackage{xcolor}
 \usepackage{subfig}
 \usepackage{ifthen}
 \usepackage{graphicx}
@@ -25,6 +26,8 @@
     shadows.blur,
     shapes.geometric,
 }
+
+\definecolor{brand}{HTML}{2a7ae2}
 
 \begin{document}
 \begin{tikzpicture}[
@@ -50,32 +53,32 @@
     node[label={[name=jsonlabel]\faFileO~JSON file}, midway] {};
 
 % STEP 1
-\node[mycircle, label={{\color{magenta}\faExclamationCircle}~\color{magenta}AJAX Request}] [above=of chart] (step1) {1};
+\node[mycircle, label={{\color{brand}\faExclamationCircle}~\color{brand}AJAX Request}] [above=of chart] (step1) {1};
 
 % STEP 2
-\node[mycircle, label={\color{magenta}\faFileCodeO~PHP Service}] [left=of step1, xshift=-1.6cm] (step2) {2};
+\node[mycircle, label={\color{brand}\faFileCodeO~PHP Service}] [left=of step1, xshift=-1.6cm] (step2) {2};
 
-\draw[->, magenta, dashed, thin] (step1) -- (step2) node [midway, above]
-    {\color{magenta}invokes};
+\draw[->,brand, dashed, thin] (step1) -- (step2) node [midway, above]
+    {\color{brand}invokes};
 
 % STEP 3
 \node[mycircle] at (0,-0.5) (step3) {3};
 
-\draw[->, magenta, dashed, thin] (step2) -- (step3) node
-    [midway, right, yshift=0.5cm] {\color{magenta}queries};
+\draw[->,brand, dashed, thin] (step2) -- (step3) node
+    [midway, right, yshift=0.5cm] {\color{brand}queries};
 
 % STEP 4
 \node[mycircle] [below=of jsonlabel, yshift=0.68cm] (step4) {4};
 
-\draw[->, magenta, dashed, thin] (step3) -- (step4) node[midway,
-    below] {\color{magenta}encoded as};
+\draw[->,brand, dashed, thin] (step3) -- (step4) node[midway,
+    below] {\color{brand}encoded as};
 
 % STEP 5
 \node[mycircle] [below=of step1, yshift=-1.18cm] (step5) {5};
 
-\draw[->, magenta, dashed, thin] (step4) -- (step5) node[midway,below,
+\draw[->,brand, dashed, thin] (step4) -- (step5) node[midway,below,
     xshift=-0.2cm]
-    {\color{magenta}rendered as};
+    {\color{brand}rendered as};
 
 %\node[state, label={\textbf{Step 1}}] (AJAXRequest) at (0,0) 
 %    {\Large\faExclamationCircle\\AJAX\\ Request \\
