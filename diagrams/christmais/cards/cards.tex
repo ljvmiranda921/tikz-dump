@@ -1,0 +1,59 @@
+% ==================================================
+% VAE-based Drawing System 
+% Author: Lester James V. Miranda
+% ==================================================
+
+\documentclass[preview, convert={outfile=\jobname-out.png,density=300}]{standalone}
+
+\usepackage{tikz}
+\usepackage{color}
+\usepackage{subfig}
+\usepackage{ifthen}
+\usepackage{graphicx}
+\usepackage{fontawesome}
+
+\renewcommand\familydefault{\sfdefault}
+
+\usetikzlibrary{
+    matrix,
+    shapes,
+    fit,
+    arrows,
+    positioning,
+    calc,
+    backgrounds,
+    shadows.blur,
+    shapes.geometric,
+}
+
+
+
+\begin{document}
+\begin{tikzpicture}[
+    node distance= 10cm,
+    module/.style={draw, thick, rounded corners, text=black, align=center,
+                minimum width=2cm,minimum height=1cm,fill=white, 
+                blur shadow={shadow blur steps=5}},
+    qd/.style={draw, rounded corners, align=center, minimum width=4cm},
+    file/.style={draw, shape=document, minimum width=1.2cm, minimum
+                height=1.28cm, thick, fill=white}
+]
+
+\node[blur shadow={shadow blur steps=10}] at (0,0) (card1) {
+    \includegraphics{1.jpg}
+};
+
+\node[blur shadow={shadow blur steps=10}] [right=of card1] (card2) {
+    \includegraphics{2.jpg}
+};
+
+\node[blur shadow={shadow blur steps=10}] [right=of card2] (card3) {
+    \includegraphics{3.jpg}
+};
+
+\node[blur shadow={shadow blur steps=10}] [right=of card3] (card4) {
+    \includegraphics{4.jpg}
+};
+\end{tikzpicture}
+\end{document}
+
